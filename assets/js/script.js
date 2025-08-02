@@ -48,4 +48,51 @@ const header = document.querySelector("[data-header]");
 window.addEventListener("scroll", function () {
   window.scrollY >= 400 ? header.classList.add("active")
     : header.classList.remove("active");
-}); 
+});
+
+/**
+ * property carousel
+ */
+
+document.addEventListener("DOMContentLoaded", function () {
+  const propertyCards = document.querySelectorAll(".property-card");
+
+  propertyCards.forEach(card => {
+    const carouselContainer = card.querySelector(".carousel-container");
+    if (!carouselContainer) return;
+
+    const slides = carouselContainer.querySelectorAll(".carousel-slide");
+    const prevButton = card.querySelector(".carousel-nav-btn.prev");
+    const nextButton = card.querySelector(".carousel-nav-btn.next");
+    let currentSlide = 0;
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.remove("active");
+        if (i === index) {
+          slide.classList.add("active");
+        }
+      });
+    }
+
+    if (slides.length > 0) {
+        showSlide(currentSlide);
+    }
+
+    if (nextButton) {
+        nextButton.addEventListener("click", (e) => {
+            e.preventDefault();
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        });
+    }
+
+    if (prevButton) {
+        prevButton.addEventListener("click", (e) => {
+            e.preventDefault();
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            showSlide(currentSlide);
+        });
+    }
+  });
+});
